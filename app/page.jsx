@@ -1,315 +1,407 @@
 "use client";
+
 import React from "react";
-import { motion } from "framer-motion";
-import { ArrowRight, Car, MapPin, ShieldCheck, MessageCircle, Clock, Waves, Users, CheckCircle2, Smartphone } from "lucide-react";
+import {
+  ArrowRight,
+  CalendarDays,
+  Car,
+  CheckCircle2,
+  Clock,
+  Compass,
+  LifeBuoy,
+  MapPin,
+  ShieldCheck,
+  Users,
+  Waves,
+} from "lucide-react";
 
 const COLORS = {
   bg: "#F2F6F6",
   dark: "#17353D",
   teal: "#57B3B3",
+  tealDark: "#0E6F78",
   muted: "#748188",
   border: "#D5E1E1",
   white: "#FFFFFF",
+  navy: "#073645",
 };
 
-const Button = ({ children, variant = "primary" }) => (
-  <button
-    className={`rounded-2xl px-6 py-3 text-sm font-semibold transition shadow-sm ${
-      variant === "primary"
-        ? "bg-[#57B3B3] text-white hover:opacity-90"
-        : "bg-white text-[#17353D] border border-[#D5E1E1] hover:bg-[#F2F6F6]"
-    }`}
-  >
-    {children}
-  </button>
-);
+const styles = {
+  page: {
+    margin: 0,
+    background: COLORS.bg,
+    color: COLORS.dark,
+    fontFamily:
+      'Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+  },
+  nav: {
+    position: "sticky",
+    top: 0,
+    zIndex: 50,
+    background: "rgba(242,246,246,0.92)",
+    backdropFilter: "blur(12px)",
+    borderBottom: `1px solid ${COLORS.border}`,
+  },
+  navInner: {
+    maxWidth: 1180,
+    margin: "0 auto",
+    padding: "16px 22px",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "space-between",
+    gap: 20,
+  },
+  logoWrap: { display: "flex", alignItems: "center", gap: 12 },
+  logo: { width: 44, height: 44, borderRadius: 12, objectFit: "cover" },
+  navLinks: {
+    display: "flex",
+    alignItems: "center",
+    gap: 24,
+    fontSize: 14,
+    fontWeight: 700,
+  },
+  link: { color: COLORS.dark, textDecoration: "none" },
+  button: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    border: 0,
+    borderRadius: 999,
+    padding: "12px 18px",
+    background: COLORS.teal,
+    color: "white",
+    fontWeight: 800,
+    fontSize: 14,
+    textDecoration: "none",
+    boxShadow: "0 12px 25px rgba(87,179,179,.26)",
+    cursor: "pointer",
+  },
+  ghostButton: {
+    display: "inline-flex",
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 8,
+    borderRadius: 999,
+    padding: "12px 18px",
+    background: "white",
+    color: COLORS.dark,
+    fontWeight: 800,
+    fontSize: 14,
+    textDecoration: "none",
+    border: `1px solid ${COLORS.border}`,
+    cursor: "pointer",
+  },
+  hero: {
+    position: "relative",
+    overflow: "hidden",
+    minHeight: 720,
+    backgroundImage:
+      "linear-gradient(90deg, rgba(7,54,69,.88), rgba(7,54,69,.58), rgba(7,54,69,.18)), url('/images/riverrun-hero.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+  },
+  heroInner: {
+    maxWidth: 1180,
+    margin: "0 auto",
+    padding: "96px 22px 90px",
+    display: "grid",
+    gridTemplateColumns: "1.05fr .95fr",
+    gap: 40,
+    alignItems: "center",
+  },
+  pill: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+    background: "rgba(255,255,255,.16)",
+    color: "white",
+    border: "1px solid rgba(255,255,255,.28)",
+    borderRadius: 999,
+    padding: "9px 14px",
+    fontSize: 13,
+    fontWeight: 800,
+    backdropFilter: "blur(8px)",
+  },
+  h1: {
+    color: "white",
+    fontSize: "clamp(44px, 7vw, 76px)",
+    lineHeight: 0.96,
+    letterSpacing: "-0.055em",
+    margin: "24px 0 22px",
+    maxWidth: 760,
+  },
+  heroText: {
+    color: "rgba(255,255,255,.84)",
+    fontSize: 20,
+    lineHeight: 1.65,
+    maxWidth: 650,
+    margin: 0,
+  },
+  heroActions: { display: "flex", gap: 12, flexWrap: "wrap", marginTop: 34 },
+  glassCard: {
+    background: "rgba(255,255,255,.88)",
+    border: "1px solid rgba(255,255,255,.55)",
+    borderRadius: 32,
+    padding: 22,
+    boxShadow: "0 30px 80px rgba(0,0,0,.28)",
+    backdropFilter: "blur(12px)",
+  },
+  phoneTop: {
+    borderRadius: 24,
+    padding: 20,
+    background: COLORS.bg,
+  },
+  section: { maxWidth: 1180, margin: "0 auto", padding: "78px 22px" },
+  sectionHeader: { maxWidth: 760, marginBottom: 30 },
+  label: {
+    display: "inline-flex",
+    alignItems: "center",
+    gap: 8,
+    color: COLORS.tealDark,
+    background: "white",
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 999,
+    padding: "9px 14px",
+    fontSize: 12,
+    fontWeight: 900,
+    textTransform: "uppercase",
+    letterSpacing: ".08em",
+  },
+  h2: {
+    margin: "18px 0 14px",
+    fontSize: "clamp(32px, 4vw, 48px)",
+    lineHeight: 1.05,
+    letterSpacing: "-0.04em",
+    color: COLORS.dark,
+  },
+  p: { color: COLORS.muted, fontSize: 17, lineHeight: 1.75, margin: 0 },
+  grid3: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 },
+  card: {
+    background: "white",
+    border: `1px solid ${COLORS.border}`,
+    borderRadius: 28,
+    padding: 26,
+    boxShadow: "0 16px 45px rgba(23,53,61,.07)",
+  },
+  iconBox: {
+    width: 52,
+    height: 52,
+    borderRadius: 18,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    color: COLORS.tealDark,
+    background: COLORS.bg,
+    marginBottom: 18,
+  },
+  split: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 34, alignItems: "center" },
+  imagePanel: {
+    minHeight: 440,
+    borderRadius: 34,
+    backgroundImage: "url('/images/riverrun-riders.png')",
+    backgroundSize: "cover",
+    backgroundPosition: "center",
+    border: `1px solid ${COLORS.border}`,
+    boxShadow: "0 25px 70px rgba(23,53,61,.14)",
+  },
+  darkBand: { background: COLORS.navy, color: "white" },
+  blogGrid: { display: "grid", gridTemplateColumns: "repeat(3, 1fr)", gap: 18 },
+  blogCard: {
+    background: "white",
+    borderRadius: 28,
+    overflow: "hidden",
+    border: `1px solid ${COLORS.border}`,
+    boxShadow: "0 16px 45px rgba(23,53,61,.08)",
+  },
+  blogImage: { height: 170, backgroundSize: "cover", backgroundPosition: "center" },
+  footer: { background: "white", borderTop: `1px solid ${COLORS.border}` },
+};
 
-const SectionLabel = ({ children }) => (
-  <div className="inline-flex items-center rounded-full border border-[#D5E1E1] bg-white/80 px-4 py-2 text-xs font-semibold uppercase tracking-wide text-[#57B3B3]">
-    {children}
-  </div>
-);
+function Stat({ value, label }) {
+  return (
+    <div style={{ background: "white", borderRadius: 22, padding: 18 }}>
+      <div style={{ fontSize: 26, fontWeight: 950, color: COLORS.dark }}>{value}</div>
+      <div style={{ fontSize: 13, color: COLORS.muted, marginTop: 4 }}>{label}</div>
+    </div>
+  );
+}
 
-const FeatureCard = ({ icon: Icon, title, text }) => (
-  <div className="rounded-3xl border border-[#D5E1E1] bg-white p-6 shadow-sm">
-    <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-[#F2F6F6] text-[#57B3B3]">
-      <Icon size={24} />
+function Feature({ icon: Icon, title, text }) {
+  return (
+    <div style={styles.card}>
+      <div style={styles.iconBox}><Icon size={25} /></div>
+      <h3 style={{ fontSize: 21, margin: "0 0 10px", letterSpacing: "-.02em" }}>{title}</h3>
+      <p style={{ ...styles.p, fontSize: 15 }}>{text}</p>
     </div>
-    <h3 className="mb-2 text-lg font-bold text-[#17353D]">{title}</h3>
-    <p className="text-sm leading-6 text-[#748188]">{text}</p>
-  </div>
-);
+  );
+}
 
-const Step = ({ number, title, text }) => (
-  <div className="flex gap-4">
-    <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-[#57B3B3] text-sm font-bold text-white">
-      {number}
-    </div>
-    <div>
-      <h3 className="font-bold text-[#17353D]">{title}</h3>
-      <p className="mt-1 text-sm leading-6 text-[#748188]">{text}</p>
-    </div>
-  </div>
-);
+function BlogCard({ image, label, title, text }) {
+  return (
+    <article style={styles.blogCard}>
+      <div style={{ ...styles.blogImage, backgroundImage: `url('${image}')` }} />
+      <div style={{ padding: 22 }}>
+        <div style={{ color: COLORS.tealDark, fontWeight: 900, fontSize: 12, textTransform: "uppercase", letterSpacing: ".08em" }}>{label}</div>
+        <h3 style={{ margin: "10px 0", fontSize: 21, letterSpacing: "-.03em" }}>{title}</h3>
+        <p style={{ ...styles.p, fontSize: 15 }}>{text}</p>
+      </div>
+    </article>
+  );
+}
 
 export default function RiverRunWebsite() {
   return (
-    <main className="min-h-screen bg-[#F2F6F6] text-[#17353D]">
-      <nav className="sticky top-0 z-50 border-b border-[#D5E1E1] bg-[#F2F6F6]/90 backdrop-blur">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
-          <div className="flex items-center gap-3">
-            <div className="flex h-10 w-10 items-center justify-center rounded-2xl bg-[#57B3B3] text-white">
-              <Waves size={22} />
-            </div>
+    <main style={styles.page}>
+      <nav style={styles.nav}>
+        <div style={styles.navInner}>
+          <a href="#top" style={{ ...styles.logoWrap, textDecoration: "none", color: COLORS.dark }}>
+            <img src="/images/riverrun-logo.png" alt="RiverRun logo" style={styles.logo} />
             <div>
-              <div className="text-xl font-black tracking-tight">RiverRun</div>
-              <div className="text-xs text-[#748188]">Paddle shuttle made simple</div>
+              <div style={{ fontSize: 21, fontWeight: 950, lineHeight: 1 }}>RiverRun</div>
+              <div style={{ fontSize: 12, color: COLORS.muted, marginTop: 3 }}>Paddle shuttle made simple</div>
             </div>
+          </a>
+          <div style={styles.navLinks} className="desktop-nav">
+            <a style={styles.link} href="#how">How it works</a>
+            <a style={styles.link} href="#riders">Riders</a>
+            <a style={styles.link} href="#drivers">Drivers</a>
+            <a style={styles.link} href="#blog">Blog</a>
           </div>
-
-          <div className="hidden items-center gap-8 text-sm font-semibold text-[#17353D] md:flex">
-            <a href="#how-it-works" className="hover:text-[#57B3B3]">How it works</a>
-            <a href="#riders" className="hover:text-[#57B3B3]">For riders</a>
-            <a href="#drivers" className="hover:text-[#57B3B3]">For drivers</a>
-            <a href="#safety" className="hover:text-[#57B3B3]">Safety</a>
-          </div>
-
-          <Button>Join waitlist</Button>
+          <a href="#waitlist" style={styles.button}>Join waitlist</a>
         </div>
       </nav>
 
-      <section className="relative overflow-hidden">
-        <div className="absolute inset-0 opacity-40">
-          <div className="absolute -left-24 top-24 h-72 w-72 rounded-full bg-[#57B3B3]/30 blur-3xl" />
-          <div className="absolute bottom-0 right-0 h-96 w-96 rounded-full bg-white blur-3xl" />
-        </div>
-
-        <div className="relative mx-auto grid max-w-7xl gap-12 px-6 py-20 md:grid-cols-2 md:py-28">
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="flex flex-col justify-center"
-          >
-            <SectionLabel>Launching for paddlers</SectionLabel>
-            <h1 className="mt-6 max-w-2xl text-5xl font-black leading-tight tracking-tight text-[#17353D] md:text-6xl">
-              A better way to get back to your vehicle after a river trip.
-            </h1>
-            <p className="mt-6 max-w-xl text-lg leading-8 text-[#748188]">
-              RiverRun connects paddlers with independent local drivers for simple, scheduled kayak and canoe shuttle rides.
-            </p>
-
-            <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-              <Button>
-                Get early access <ArrowRight className="ml-2 inline" size={16} />
-              </Button>
-              <Button variant="secondary">Become a driver</Button>
-            </div>
-
-            <div className="mt-8 grid max-w-xl grid-cols-3 gap-3 text-center">
-              <div className="rounded-2xl bg-white p-4 shadow-sm">
-                <div className="text-2xl font-black text-[#17353D]">30 min</div>
-                <div className="text-xs text-[#748188]">pickup slots</div>
-              </div>
-              <div className="rounded-2xl bg-white p-4 shadow-sm">
-                <div className="text-2xl font-black text-[#17353D]">2 hr</div>
-                <div className="text-xs text-[#748188]">booking lead</div>
-              </div>
-              <div className="rounded-2xl bg-white p-4 shadow-sm">
-                <div className="text-2xl font-black text-[#17353D]">Local</div>
-                <div className="text-xs text-[#748188]">driver network</div>
-              </div>
-            </div>
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.7, delay: 0.1 }}
-            className="relative"
-          >
-            <div className="rounded-[2rem] border border-[#D5E1E1] bg-white p-5 shadow-xl">
-              <div className="rounded-[1.5rem] bg-[#F2F6F6] p-5">
-                <div className="mb-5 flex items-center justify-between">
-                  <div>
-                    <div className="text-sm text-[#748188]">Upcoming shuttle</div>
-                    <div className="text-xl font-black">Sugar Creek</div>
-                  </div>
-                  <div className="rounded-full bg-[#57B3B3] px-4 py-2 text-xs font-bold text-white">Confirmed</div>
-                </div>
-
-                <div className="space-y-4 rounded-3xl bg-white p-5 shadow-sm">
-                  <div className="flex items-start gap-3">
-                    <MapPin className="mt-1 text-[#57B3B3]" size={20} />
-                    <div>
-                      <div className="font-bold">Put-in</div>
-                      <div className="text-sm text-[#748188]">Deer’s Mill access</div>
-                    </div>
-                  </div>
-                  <div className="ml-2 h-8 border-l-2 border-dashed border-[#D5E1E1]" />
-                  <div className="flex items-start gap-3">
-                    <MapPin className="mt-1 text-[#57B3B3]" size={20} />
-                    <div>
-                      <div className="font-bold">Take-out</div>
-                      <div className="text-sm text-[#748188]">Cox Ford covered bridge</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="mt-5 grid grid-cols-2 gap-4">
-                  <div className="rounded-3xl bg-white p-4 shadow-sm">
-                    <Clock className="mb-3 text-[#57B3B3]" />
-                    <div className="text-sm text-[#748188]">Pickup</div>
-                    <div className="font-black">9:30 AM</div>
-                  </div>
-                  <div className="rounded-3xl bg-white p-4 shadow-sm">
-                    <Users className="mb-3 text-[#57B3B3]" />
-                    <div className="text-sm text-[#748188]">Riders</div>
-                    <div className="font-black">2 paddlers</div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </motion.div>
-        </div>
-      </section>
-
-      <section id="how-it-works" className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid gap-12 md:grid-cols-2">
+      <section id="top" style={styles.hero}>
+        <div style={styles.heroInner} className="hero-grid">
           <div>
-            <SectionLabel>How it works</SectionLabel>
-            <h2 className="mt-5 text-4xl font-black tracking-tight">Schedule your shuttle before you hit the water.</h2>
-            <p className="mt-4 max-w-xl leading-8 text-[#748188]">
-              Pick your river, put-in, take-out, pickup time, and number of riders. RiverRun helps match the ride with an approved local driver.
+            <div style={styles.pill}><Waves size={16} /> Launching for paddlers</div>
+            <h1 style={styles.h1}>Your river shuttle, simplified.</h1>
+            <p style={styles.heroText}>
+              RiverRun connects paddlers with independent local drivers for scheduled kayak and canoe shuttle rides — so your trip logistics feel as smooth as the float.
             </p>
-          </div>
-          <div className="space-y-7 rounded-3xl border border-[#D5E1E1] bg-white p-8 shadow-sm">
-            <Step number="1" title="Choose your route" text="Select the river, put-in, and take-out for your trip." />
-            <Step number="2" title="Schedule pickup" text="Choose your pickup date, time, riders, and shuttle type." />
-            <Step number="3" title="Get matched" text="An approved independent driver accepts your shuttle request." />
-            <Step number="4" title="Ride back with confidence" text="Driver status updates help you know when they are on the way and arrived." />
-          </div>
-        </div>
-      </section>
-
-      <section id="riders" className="bg-white py-20">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="mb-10 max-w-2xl">
-            <SectionLabel>For riders</SectionLabel>
-            <h2 className="mt-5 text-4xl font-black tracking-tight">Built for paddlers who bring their own gear.</h2>
-            <p className="mt-4 leading-8 text-[#748188]">
-              RiverRun is designed for people who already have kayaks, canoes, or paddleboards and just need a reliable shuttle connection.
-            </p>
-          </div>
-
-          <div className="grid gap-5 md:grid-cols-3">
-            <FeatureCard icon={MapPin} title="Route-based booking" text="Choose from supported rivers, access points, and take-outs without calling around." />
-            <FeatureCard icon={MessageCircle} title="In-app updates" text="Know when your ride is accepted, when your driver is on the way, and when they arrive." />
-            <FeatureCard icon={ShieldCheck} title="Clear expectations" text="Rider guidelines help set expectations around timing, wet gear, animals, and cancellations." />
-          </div>
-        </div>
-      </section>
-
-      <section id="drivers" className="mx-auto max-w-7xl px-6 py-20">
-        <div className="grid items-center gap-12 md:grid-cols-2">
-          <div className="rounded-[2rem] border border-[#D5E1E1] bg-white p-8 shadow-sm">
-            <div className="mb-6 flex h-14 w-14 items-center justify-center rounded-2xl bg-[#F2F6F6] text-[#57B3B3]">
-              <Car size={28} />
+            <div style={styles.heroActions}>
+              <a style={styles.button} href="#waitlist">Get early access <ArrowRight size={17} /></a>
+              <a style={styles.ghostButton} href="#drivers">Become a driver</a>
             </div>
-            <h2 className="text-3xl font-black tracking-tight">Earn by helping paddlers move between river access points.</h2>
-            <p className="mt-4 leading-8 text-[#748188]">
-              Drivers can apply, get approved, view available rides, and accept trips that fit their schedule.
-            </p>
-            <div className="mt-6 space-y-3">
-              {["See pickup date, time, and route", "Accept rides that fit your availability", "Driver earnings shown before accepting", "Support link available when help is needed"].map((item) => (
-                <div key={item} className="flex items-center gap-3 text-sm font-semibold text-[#17353D]">
-                  <CheckCircle2 size={18} className="text-[#57B3B3]" />
-                  {item}
+          </div>
+
+          <div style={styles.glassCard}>
+            <div style={styles.phoneTop}>
+              <div style={{ display: "flex", justifyContent: "space-between", gap: 16, marginBottom: 18 }}>
+                <div>
+                  <div style={{ color: COLORS.muted, fontSize: 13 }}>Upcoming shuttle</div>
+                  <div style={{ fontSize: 25, fontWeight: 950, marginTop: 2 }}>Sugar Creek</div>
                 </div>
+                <div style={{ alignSelf: "start", borderRadius: 999, background: COLORS.teal, color: "white", padding: "8px 12px", fontSize: 12, fontWeight: 900 }}>Confirmed</div>
+              </div>
+              <div style={{ background: "white", borderRadius: 24, padding: 20, border: `1px solid ${COLORS.border}` }}>
+                <div style={{ display: "flex", gap: 12 }}><MapPin color={COLORS.tealDark} /><div><b>Put-in</b><br /><span style={{ color: COLORS.muted }}>Deer’s Mill access</span></div></div>
+                <div style={{ marginLeft: 12, height: 32, borderLeft: `2px dashed ${COLORS.border}` }} />
+                <div style={{ display: "flex", gap: 12 }}><MapPin color={COLORS.tealDark} /><div><b>Take-out</b><br /><span style={{ color: COLORS.muted }}>Cox Ford covered bridge</span></div></div>
+              </div>
+              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 14, marginTop: 14 }}>
+                <Stat value="9:30" label="AM pickup" />
+                <Stat value="2" label="paddlers" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section style={styles.section} id="how">
+        <div style={styles.sectionHeader}>
+          <div style={styles.label}><Compass size={15} /> How it works</div>
+          <h2 style={styles.h2}>Plan the paddle. Schedule the shuttle. Get back to your vehicle.</h2>
+          <p style={styles.p}>Choose your river route, pickup date and time, rider count, and shuttle type. RiverRun helps match the trip with an approved independent driver.</p>
+        </div>
+        <div style={styles.grid3} className="grid3">
+          <Feature icon={MapPin} title="Pick your route" text="Select supported rivers, put-ins, and take-outs without calling around or coordinating multiple vehicles." />
+          <Feature icon={CalendarDays} title="Schedule ahead" text="Book your ride with clear pickup timing, rider count, and trip details before you hit the water." />
+          <Feature icon={Car} title="Meet your driver" text="Approved independent drivers accept available rides that fit their schedule and route area." />
+        </div>
+      </section>
+
+      <section style={{ ...styles.section, paddingTop: 20 }} id="riders">
+        <div style={styles.split} className="split">
+          <div style={styles.imagePanel} />
+          <div>
+            <div style={styles.label}><Users size={15} /> For riders</div>
+            <h2 style={styles.h2}>Built for paddlers who bring their own gear.</h2>
+            <p style={styles.p}>RiverRun is designed for kayakers, canoeists, and paddleboarders who already have their own equipment and need a simple shuttle connection between access points.</p>
+            <div style={{ display: "grid", gap: 12, marginTop: 24 }}>
+              {["Route-based booking", "Driver status updates", "Clear timing and pickup expectations", "Support access when plans change"].map((x) => (
+                <div key={x} style={{ display: "flex", gap: 10, alignItems: "center", fontWeight: 850 }}><CheckCircle2 color={COLORS.tealDark} size={20} />{x}</div>
               ))}
             </div>
           </div>
+        </div>
+      </section>
 
+      <section style={styles.darkBand} id="drivers">
+        <div style={{ ...styles.section, display: "grid", gridTemplateColumns: "1fr 1fr", gap: 26 }} className="split">
           <div>
-            <SectionLabel>Driver network</SectionLabel>
-            <h2 className="mt-5 text-4xl font-black tracking-tight">Flexible trips. Local routes. Simple flow.</h2>
-            <p className="mt-4 leading-8 text-[#748188]">
-              RiverRun is not a traditional outfitter or rental company. It is a marketplace for scheduled shuttle support from independent drivers.
-            </p>
-            <div className="mt-8 flex gap-3">
-              <Button>Apply to drive</Button>
-              <Button variant="secondary">Learn more</Button>
-            </div>
+            <div style={{ ...styles.label, background: "rgba(255,255,255,.10)", color: "white", borderColor: "rgba(255,255,255,.18)" }}><Car size={15} /> Driver network</div>
+            <h2 style={{ ...styles.h2, color: "white" }}>Earn by helping paddlers move between river access points.</h2>
+            <p style={{ ...styles.p, color: "rgba(255,255,255,.72)" }}>Drivers can apply, get approved, view available rides, and accept trips that fit their schedule. RiverRun shows trip details and driver earnings before acceptance.</p>
+          </div>
+          <div style={{ display: "grid", gap: 14 }}>
+            <Feature icon={Clock} title="Flexible rides" text="Accept trips that fit your route area and availability." />
+            <Feature icon={ShieldCheck} title="Approved access" text="Drivers register and must be approved before accepting rides." />
           </div>
         </div>
       </section>
 
-      <section id="safety" className="bg-[#17353D] py-20 text-white">
-        <div className="mx-auto max-w-7xl px-6">
-          <div className="grid gap-12 md:grid-cols-2">
-            <div>
-              <div className="inline-flex rounded-full bg-white/10 px-4 py-2 text-xs font-bold uppercase tracking-wide text-[#57B3B3]">Safety & clarity</div>
-              <h2 className="mt-5 text-4xl font-black tracking-tight">Designed to reduce confusion before, during, and after pickup.</h2>
-              <p className="mt-4 leading-8 text-white/70">
-                RiverRun is being built around clear status updates, driver approval, arrival proof, rider guidelines, and support access.
-              </p>
-            </div>
-            <div className="grid gap-4 sm:grid-cols-2">
-              <div className="rounded-3xl bg-white/10 p-5">
-                <ShieldCheck className="mb-4 text-[#57B3B3]" />
-                <h3 className="font-bold">Approved drivers</h3>
-                <p className="mt-2 text-sm leading-6 text-white/65">Drivers must register and be approved before accepting rides.</p>
-              </div>
-              <div className="rounded-3xl bg-white/10 p-5">
-                <Clock className="mb-4 text-[#57B3B3]" />
-                <h3 className="font-bold">Pickup windows</h3>
-                <p className="mt-2 text-sm leading-6 text-white/65">Scheduled pickup times and wait windows help set expectations.</p>
-              </div>
-              <div className="rounded-3xl bg-white/10 p-5">
-                <MapPin className="mb-4 text-[#57B3B3]" />
-                <h3 className="font-bold">Arrival proof</h3>
-                <p className="mt-2 text-sm leading-6 text-white/65">Timestamp and location checks support arrival confirmation.</p>
-              </div>
-              <div className="rounded-3xl bg-white/10 p-5">
-                <Smartphone className="mb-4 text-[#57B3B3]" />
-                <h3 className="font-bold">Support access</h3>
-                <p className="mt-2 text-sm leading-6 text-white/65">Riders and drivers can access support when something goes wrong.</p>
-              </div>
-            </div>
-          </div>
+      <section style={styles.section} id="blog">
+        <div style={styles.sectionHeader}>
+          <div style={styles.label}><Waves size={15} /> RiverRun Journal</div>
+          <h2 style={styles.h2}>Paddling tips, route guides, and shuttle planning.</h2>
+          <p style={styles.p}>Use this section for SEO-friendly articles that help paddlers find RiverRun before they ever download the app.</p>
+        </div>
+        <div style={styles.blogGrid} className="grid3">
+          <BlogCard image="/images/riverrun-wide.png" label="Planning" title="How to plan a simple kayak shuttle" text="A quick guide to timing, access points, pickup windows, and avoiding vehicle juggling." />
+          <BlogCard image="/images/riverrun-hero.png" label="Routes" title="What to check before choosing a river route" text="Distance, paddle time, water levels, access points, and cell service all matter." />
+          <BlogCard image="/images/riverrun-riders.png" label="Safety" title="What riders should expect at pickup" text="Driver updates, pickup timing, wet gear etiquette, and support options." />
         </div>
       </section>
 
-      <section className="mx-auto max-w-7xl px-6 py-20">
-        <div className="rounded-[2rem] bg-white p-8 text-center shadow-sm md:p-14">
-          <SectionLabel>Coming soon</SectionLabel>
-          <h2 className="mx-auto mt-5 max-w-3xl text-4xl font-black tracking-tight">Be first in line when RiverRun launches in your area.</h2>
-          <p className="mx-auto mt-4 max-w-2xl leading-8 text-[#748188]">
-            Join the early access list for launch updates, supported rivers, driver openings, and app availability.
-          </p>
-          <div className="mx-auto mt-8 flex max-w-xl flex-col gap-3 rounded-3xl border border-[#D5E1E1] bg-[#F2F6F6] p-3 sm:flex-row">
-            <input
-              placeholder="Enter your email"
-              className="min-h-12 flex-1 rounded-2xl border border-[#D5E1E1] bg-white px-4 text-sm outline-none"
-            />
-            <Button>Join waitlist</Button>
-          </div>
+      <section id="waitlist" style={{ ...styles.section, paddingTop: 10 }}>
+        <div style={{ ...styles.card, textAlign: "center", padding: "46px 24px" }}>
+          <img src="/images/riverrun-logo.png" alt="RiverRun logo" style={{ width: 86, height: 86, borderRadius: 24, objectFit: "cover", marginBottom: 12 }} />
+          <h2 style={{ ...styles.h2, marginBottom: 12 }}>Be first in line when RiverRun launches.</h2>
+          <p style={{ ...styles.p, maxWidth: 650, margin: "0 auto 24px" }}>Join the early list for launch updates, supported rivers, driver openings, and app availability.</p>
+          <form style={{ maxWidth: 560, margin: "0 auto", display: "flex", gap: 10 }} className="waitlist-form">
+            <input placeholder="Enter your email" style={{ flex: 1, borderRadius: 999, border: `1px solid ${COLORS.border}`, padding: "14px 18px", fontSize: 15 }} />
+            <button type="button" style={styles.button}>Join waitlist</button>
+          </form>
         </div>
       </section>
 
-      <footer className="border-t border-[#D5E1E1] bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-5 px-6 py-8 text-sm text-[#748188] md:flex-row md:items-center md:justify-between">
+      <footer style={styles.footer}>
+        <div style={{ ...styles.navInner, alignItems: "flex-start" }}>
           <div>
-            <div className="font-bold text-[#17353D]">RiverRun</div>
-            <div>RiverRun is a technology marketplace connecting paddlers with independent drivers.</div>
+            <div style={{ fontSize: 20, fontWeight: 950 }}>RiverRun</div>
+            <p style={{ ...styles.p, fontSize: 14, maxWidth: 620, marginTop: 8 }}>RiverRun is a technology marketplace connecting paddlers with independent drivers. RiverRun does not provide transportation services directly.</p>
           </div>
-          <div className="flex gap-5">
-            <a href="#" className="hover:text-[#57B3B3]">Rider Agreement</a>
-            <a href="#" className="hover:text-[#57B3B3]">Driver Agreement</a>
-            <a href="#" className="hover:text-[#57B3B3]">Privacy</a>
+          <div style={{ display: "flex", gap: 16, fontSize: 14, fontWeight: 800 }}>
+            <a href="#" style={styles.link}>Rider Agreement</a>
+            <a href="#" style={styles.link}>Driver Agreement</a>
+            <a href="#" style={styles.link}>Privacy</a>
           </div>
         </div>
       </footer>
+
+      <style>{`
+        * { box-sizing: border-box; }
+        body { margin: 0; }
+        a:hover { opacity: .82; }
+        @media (max-width: 860px) {
+          .desktop-nav { display: none !important; }
+          .hero-grid, .split { grid-template-columns: 1fr !important; }
+          .grid3 { grid-template-columns: 1fr !important; }
+          .waitlist-form { flex-direction: column; }
+        }
+      `}</style>
     </main>
   );
 }
