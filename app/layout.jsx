@@ -1,3 +1,5 @@
+import "./globals.css";
+
 export const metadata = {
   title: "RiverRun",
   description: "Paddle shuttle made simple",
